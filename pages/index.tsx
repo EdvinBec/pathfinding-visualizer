@@ -1,7 +1,9 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import Grid from "../components/Grid";
 
 export default function Home() {
-  return <></>;
+  return (
+    <>
+      <Grid />
+    </>
+  );
 }
