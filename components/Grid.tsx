@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { dijkstra } from "../algorithms/dijkstra";
 import { NodeType } from "../interfaces";
 import Node from "./Node";
 
@@ -8,8 +9,8 @@ const GRID_WIDTH = 50;
 const GRID_HEIGHT = 20;
 const NODE_START_ROW = 10;
 const NODE_START_COL = 5;
-const NODE_FINISH_ROW = 10;
-const NODE_FINISH_COL = 45;
+const NODE_FINISH_ROW = 8;
+const NODE_FINISH_COL = 25;
 
 const Grid = (props: Props) => {
   /**
@@ -25,6 +26,22 @@ const Grid = (props: Props) => {
 
   return (
     <div>
+      <button
+        onClick={() => {
+          const shortestPath = dijkstra(
+            grid,
+            grid[NODE_START_ROW][NODE_START_COL],
+            grid[NODE_FINISH_ROW][NODE_FINISH_COL]
+          );
+          for (const node of shortestPath) {
+            const { row, col } = node;
+            const div = document.querySelector(`.${"s" + col + "s" + row}`);
+            div?.classList.add(`isVisited`);
+          }
+        }}
+      >
+        Start Dijkstra
+      </button>
       {grid?.map((row, rowIdx) => {
         return (
           <div key={rowIdx} className="gridRow">
@@ -47,7 +64,7 @@ const Grid = (props: Props) => {
   );
 };
 
-const getInitialGrid = (width: Number, height: Number) => {
+const getInitialGrid = (width: number, height: number) => {
   const grid = [];
   for (let row = 0; row < height; row++) {
     const rowNodes = [];
@@ -60,12 +77,15 @@ const getInitialGrid = (width: Number, height: Number) => {
   return grid;
 };
 
-const createNewNode = (col: Number, row: Number) => {
+const createNewNode = (col: number, row: number) => {
   return {
     col,
     row,
     isStart: row === NODE_START_ROW && col === NODE_START_COL,
     isFinish: row === NODE_FINISH_ROW && col === NODE_FINISH_COL,
+    isVisited: false,
+    distance: Infinity,
+    previousNode: null,
   };
 };
 

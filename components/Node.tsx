@@ -1,11 +1,17 @@
 import React from "react";
-import { NodeType } from "../interfaces";
 
-type Props = {};
+type Props = {
+  isStart: boolean;
+  isFinish: boolean;
+  col: number;
+  row: number;
+};
 
-const Node = ({ isStart, isFinish, col, row }: NodeType) => {
+const Node = ({ isStart, isFinish, col, row }: Props) => {
   const extraClassName = isStart ? "nodeStart" : isFinish ? "nodeFinish" : "";
-  return <div className={`node ${extraClassName}`}></div>;
+  return (
+    <div className={`node ${extraClassName} ${"s" + col + "s" + row}`}></div>
+  );
 };
 
 export default Node;

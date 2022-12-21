@@ -1,6 +1,9 @@
 export interface NodeType {
-  col: Number;
-  row: Number;
+  col: number;
+  row: number;
   isStart: boolean;
   isFinish: boolean;
+  isVisited: boolean;
+  previousNode: NodeType | null;
+  distance: number;
 }
