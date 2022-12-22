@@ -19,6 +19,7 @@ const Grid = (props: Props) => {
    */
   const [grid, setGrid] = useState<Array<Array<NodeType>>>();
   const [isMouseDown, setIsMouseDown] = useState<boolean>();
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const initialGrid = getInitialGrid(GRID_WIDTH, GRID_HEIGHT);
@@ -32,18 +33,21 @@ const Grid = (props: Props) => {
     >
       <button
         onClick={() => {
-          const shortestPath = dijkstra(
+          const response = dijkstra(
             grid,
             grid[NODE_START_ROW][NODE_START_COL],
             grid[NODE_FINISH_ROW][NODE_FINISH_COL]
           );
-          for (const node of shortestPath) {
-            const { row, col } = node;
+
+          for (let i = 0; i < response.shortestPath.length; i++) {
+            const { row, col } = response.shortestPath[i];
             const div = document.querySelector(`.${"s" + col + "s" + row}`);
-            div?.classList.add(`isVisited`);
+            setTimeout(() => {
+              div?.classList.add(`isVisited`);
+            }, 50 * i);
           }
 
-          console.log(shortestPath);
+          setError(response.errorMsg);
         }}
       >
         Start Dijkstra
@@ -68,6 +72,7 @@ const Grid = (props: Props) => {
           </div>
         );
       })}
+      <h1>{error}</h1>
     </div>
   );
 };
