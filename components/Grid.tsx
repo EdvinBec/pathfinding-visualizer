@@ -18,6 +18,7 @@ const Grid = (props: Props) => {
    * on components first load
    */
   const [grid, setGrid] = useState<Array<Array<NodeType>>>();
+  const [isMouseDown, setIsMouseDown] = useState<boolean>();
 
   useEffect(() => {
     const initialGrid = getInitialGrid(GRID_WIDTH, GRID_HEIGHT);
@@ -25,7 +26,10 @@ const Grid = (props: Props) => {
   }, []);
 
   return (
-    <div>
+    <div
+      onMouseDown={() => setIsMouseDown(true)}
+      onMouseUp={() => setIsMouseDown(false)}
+    >
       <button
         onClick={() => {
           const shortestPath = dijkstra(
@@ -57,6 +61,7 @@ const Grid = (props: Props) => {
                   col={col}
                   row={row}
                   node={node}
+                  isMouseDown={isMouseDown}
                 />
               );
             })}

@@ -8,19 +8,29 @@ type Props = {
   col: number;
   row: number;
   node: NodeType;
+  isMouseDown?: boolean;
 };
 
-const Node = ({ isStart, isFinish, col, row, node }: Props) => {
+const Node = ({ isStart, isFinish, col, row, node, isMouseDown }: Props) => {
   const extraClassName = isStart ? "nodeStart" : isFinish ? "nodeFinish" : "";
   const [bg, setBg] = useState<String>();
   return (
-    <div
-      onMouseEnter={() => {
-        setBg("wall");
-        node.isWall = true;
-      }}
-      className={`node ${extraClassName} ${bg} ${"s" + col + "s" + row}`}
-    ></div>
+    <>
+      {isMouseDown && (
+        <div
+          onMouseEnter={() => {
+            setBg("wall");
+            node.isWall = true;
+          }}
+          className={`node ${extraClassName} ${bg} ${"s" + col + "s" + row}`}
+        ></div>
+      )}
+      {!isMouseDown && (
+        <div
+          className={`node ${extraClassName} ${bg} ${"s" + col + "s" + row}`}
+        ></div>
+      )}
+    </>
   );
 };
 
