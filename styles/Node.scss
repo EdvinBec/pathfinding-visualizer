@@ -2,7 +2,7 @@
   width: 1.5rem;
   height: 1.5rem;
   border: 1px solid black;
-  transition: all ease-in-out 0.5s;
+  transition: all ease-in-out 0.2s;
 }
 
 .nodeStart {
@@ -15,4 +15,8 @@
 
 .isVisited {
   background-color: red;
+}
+
+.wall {
+  background-color: black;
 }

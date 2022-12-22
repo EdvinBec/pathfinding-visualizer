@@ -13,6 +13,9 @@ export const dijkstra = (
 
     const closestNode = unvisitedNodes.shift();
 
+    if (closestNode?.isWall === true) {
+      continue;
+    }
     if (closestNode?.distance === Infinity) break;
     if (closestNode === finishNode) {
       break;

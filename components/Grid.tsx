@@ -9,8 +9,8 @@ const GRID_WIDTH = 50;
 const GRID_HEIGHT = 20;
 const NODE_START_ROW = 10;
 const NODE_START_COL = 5;
-const NODE_FINISH_ROW = 8;
-const NODE_FINISH_COL = 25;
+const NODE_FINISH_ROW = 15;
+const NODE_FINISH_COL = 45;
 
 const Grid = (props: Props) => {
   /**
@@ -38,6 +38,8 @@ const Grid = (props: Props) => {
             const div = document.querySelector(`.${"s" + col + "s" + row}`);
             div?.classList.add(`isVisited`);
           }
+
+          console.log(shortestPath);
         }}
       >
         Start Dijkstra
@@ -54,6 +56,7 @@ const Grid = (props: Props) => {
                   isFinish={isFinish}
                   col={col}
                   row={row}
+                  node={node}
                 />
               );
             })}
@@ -86,6 +89,7 @@ const createNewNode = (col: number, row: number) => {
     isVisited: false,
     distance: Infinity,
     previousNode: null,
+    isWall: false,
   };
 };
 

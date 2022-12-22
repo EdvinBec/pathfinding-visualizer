@@ -6,4 +6,5 @@ export interface NodeType {
   isVisited: boolean;
   previousNode: NodeType | null;
   distance: number;
+  isWall: boolean;
 }
