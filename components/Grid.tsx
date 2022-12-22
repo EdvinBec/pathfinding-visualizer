@@ -5,23 +5,32 @@ import Node from "./Node";
 
 type Props = {};
 
+//Grid size
 const GRID_WIDTH = 50;
 const GRID_HEIGHT = 20;
+
+//Start and finish node position
 const NODE_START_ROW = 10;
 const NODE_START_COL = 5;
 const NODE_FINISH_ROW = 15;
 const NODE_FINISH_COL = 45;
+
+//Animation speed
+const SEARCH_ANIMATION_SPEED = 10;
+const PATH_ANIMATION_SPEED = 50;
 
 const Grid = (props: Props) => {
   /**
    * Here we have defined new state, to generate grid only once
    * on components first load
    */
-  const [grid, setGrid] = useState<Array<Array<NodeType>>>();
-  const [isMouseDown, setIsMouseDown] = useState<boolean>();
-  const [error, setError] = useState("");
-  const [bool, setBool] = useState(false);
+  const [grid, setGrid] = useState<Array<Array<NodeType>>>(); //Generate grid on load
+  const [isMouseDown, setIsMouseDown] = useState<boolean>(); //State for placing walls down
+  const [noPathMessage, setNoPathMessage] = useState(""); //If no possible path message
 
+  /* Generate initial grid on load
+    and save it in local state
+  */
   useEffect(() => {
     const initialGrid = getInitialGrid(GRID_WIDTH, GRID_HEIGHT);
     setGrid(initialGrid);
@@ -34,48 +43,27 @@ const Grid = (props: Props) => {
     >
       <button
         onClick={() => {
-          const response = dijkstra(
-            grid,
-            grid[NODE_START_ROW][NODE_START_COL],
-            grid[NODE_FINISH_ROW][NODE_FINISH_COL]
-          );
+          if (grid) {
+            const response = dijkstra(
+              grid,
+              grid[NODE_START_ROW][NODE_START_COL], //Start node
+              grid[NODE_FINISH_ROW][NODE_FINISH_COL] //Finish node
+            );
 
-          for (let i = 0; i < response.visitedNodesInOrder.length; i++) {
-            const { row, col } = response.visitedNodesInOrder[i];
-            const div = document.querySelector(`.${"s" + col + "s" + row}`);
-            setTimeout(() => {
-              div?.classList.add(`searching`);
+            const { visitedNodesInOrder, shortestPath, errorMsg } = response;
 
-              if (i === response.visitedNodesInOrder.length - 1) {
-                for (let i = 0; i < response.shortestPath.length; i++) {
-                  const { row, col } = response.shortestPath[i];
-                  const div = document.querySelector(
-                    `.${"s" + col + "s" + row}`
-                  );
-                  setTimeout(() => {
-                    div?.classList.add(`isVisited`);
-                  }, 50 * i);
-                }
-              }
-            }, 10 * i);
-          }
-
-          if (bool === true) {
-            for (let i = 0; i < response.shortestPath.length; i++) {
-              const { row, col } = response.shortestPath[i];
-              const div = document.querySelector(`.${"s" + col + "s" + row}`);
-              setTimeout(() => {
-                div?.classList.add(`isVisited`);
-              }, 50 * i);
+            animateDijkstra(visitedNodesInOrder, shortestPath);
+            if (errorMsg) {
+              //If there are any error print them out
+              setNoPathMessage(errorMsg);
             }
           }
-
-          setError(response.errorMsg);
         }}
       >
         Start Dijkstra
       </button>
       {grid?.map((row, rowIdx) => {
+        //Displaying already generated grid
         return (
           <div key={rowIdx} className="gridRow">
             {row.map((node, nodeIdx) => {
@@ -95,13 +83,45 @@ const Grid = (props: Props) => {
           </div>
         );
       })}
-      <h1>{error}</h1>
+      <h1>{noPathMessage}</h1>
     </div>
   );
 };
 
+const animateDijkstra = (
+  visitedNodesInOrder: Array<NodeType>,
+  shortestPath: Array<NodeType>
+) => {
+  for (let i = 0; i < visitedNodesInOrder.length; i++) {
+    const { row, col } = visitedNodesInOrder[i];
+
+    const div = document.querySelector(`.${"c" + col + "r" + row}`);
+
+    setTimeout(() => {
+      div?.classList.add(`searching`);
+
+      if (i === visitedNodesInOrder.length - 1) {
+        animateShortestPath(shortestPath);
+      }
+    }, SEARCH_ANIMATION_SPEED * i);
+  }
+};
+
+const animateShortestPath = (path: Array<NodeType>) => {
+  for (let i = 0; i < path.length; i++) {
+    const { row, col } = path[i];
+
+    const div = document.querySelector(`.${"c" + col + "r" + row}`);
+
+    setTimeout(() => {
+      div?.classList.add(`isVisited`);
+    }, PATH_ANIMATION_SPEED * i);
+  }
+};
+
 const getInitialGrid = (width: number, height: number) => {
   const grid = [];
+
   for (let row = 0; row < height; row++) {
     const rowNodes = [];
     for (let col = 0; col < width; col++) {

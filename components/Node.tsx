@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { nodeModuleNameResolver } from "typescript";
 import { NodeType } from "../interfaces";
 
 type Props = {
@@ -12,22 +11,23 @@ type Props = {
 };
 
 const Node = ({ isStart, isFinish, col, row, node, isMouseDown }: Props) => {
+  const [wall, setWall] = useState<String>();
+
   const extraClassName = isStart ? "nodeStart" : isFinish ? "nodeFinish" : "";
-  const [bg, setBg] = useState<String>();
+
+  const nodeClassNames = `node ${extraClassName} ${wall} ${
+    "c" + col + "r" + row
+  }`;
   return (
     <>
+      {!isMouseDown && <div className={nodeClassNames}></div>}
       {isMouseDown && (
         <div
           onMouseEnter={() => {
-            setBg("wall");
+            setWall("wall");
             node.isWall = true;
           }}
-          className={`node ${extraClassName} ${bg} ${"s" + col + "s" + row}`}
-        ></div>
-      )}
-      {!isMouseDown && (
-        <div
-          className={`node ${extraClassName} ${bg} ${"s" + col + "s" + row}`}
+          className={nodeClassNames}
         ></div>
       )}
     </>
