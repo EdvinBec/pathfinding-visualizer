@@ -20,6 +20,7 @@ const Grid = (props: Props) => {
   const [grid, setGrid] = useState<Array<Array<NodeType>>>();
   const [isMouseDown, setIsMouseDown] = useState<boolean>();
   const [error, setError] = useState("");
+  const [bool, setBool] = useState(false);
 
   useEffect(() => {
     const initialGrid = getInitialGrid(GRID_WIDTH, GRID_HEIGHT);
@@ -39,12 +40,34 @@ const Grid = (props: Props) => {
             grid[NODE_FINISH_ROW][NODE_FINISH_COL]
           );
 
-          for (let i = 0; i < response.shortestPath.length; i++) {
-            const { row, col } = response.shortestPath[i];
+          for (let i = 0; i < response.visitedNodesInOrder.length; i++) {
+            const { row, col } = response.visitedNodesInOrder[i];
             const div = document.querySelector(`.${"s" + col + "s" + row}`);
             setTimeout(() => {
-              div?.classList.add(`isVisited`);
-            }, 50 * i);
+              div?.classList.add(`searching`);
+
+              if (i === response.visitedNodesInOrder.length - 1) {
+                for (let i = 0; i < response.shortestPath.length; i++) {
+                  const { row, col } = response.shortestPath[i];
+                  const div = document.querySelector(
+                    `.${"s" + col + "s" + row}`
+                  );
+                  setTimeout(() => {
+                    div?.classList.add(`isVisited`);
+                  }, 50 * i);
+                }
+              }
+            }, 10 * i);
+          }
+
+          if (bool === true) {
+            for (let i = 0; i < response.shortestPath.length; i++) {
+              const { row, col } = response.shortestPath[i];
+              const div = document.querySelector(`.${"s" + col + "s" + row}`);
+              setTimeout(() => {
+                div?.classList.add(`isVisited`);
+              }, 50 * i);
+            }
           }
 
           setError(response.errorMsg);

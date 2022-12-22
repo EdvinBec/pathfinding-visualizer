@@ -7,6 +7,7 @@ export const dijkstra = (
 ) => {
   startNode.distance = 0;
   const unvisitedNodes = getAllNodes(grid);
+  const visitedNodesInOrder = [];
   let errorMsg = "";
 
   while (!!unvisitedNodes.length) {
@@ -27,12 +28,13 @@ export const dijkstra = (
 
     if (closestNode) {
       closestNode.isVisited = true;
+      visitedNodesInOrder.push(closestNode);
 
       updateUnvisitedNeighbors(grid, closestNode);
     }
   }
   const shortestPath = getNodesInShortestPath(finishNode);
-  return { shortestPath, errorMsg };
+  return { shortestPath, errorMsg, visitedNodesInOrder };
 };
 
 const updateUnvisitedNeighbors = (
