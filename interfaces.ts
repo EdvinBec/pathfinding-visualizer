@@ -8,3 +8,14 @@ export interface NodeType {
   distance: number;
   isWall: boolean;
 }
+
+export interface StartFinishPosition {
+  start: {
+    x: number;
+    y: number;
+  };
+  finish: {
+    x: number;
+    y: number;
+  };
+}

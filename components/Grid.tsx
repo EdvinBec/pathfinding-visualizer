@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { dijkstra } from "../algorithms/dijkstra";
-import { NodeType } from "../interfaces";
+import { NodeType, StartFinishPosition } from "../interfaces";
 import Node from "./Node";
 
 type Props = {};
@@ -9,21 +10,13 @@ type Props = {};
 const GRID_WIDTH = 50;
 const GRID_HEIGHT = 20;
 
-//Start and finish node position
-const NODE_START_ROW = 10;
-const NODE_START_COL = 5;
-const NODE_FINISH_ROW = 15;
-const NODE_FINISH_COL = 45;
-
 //Animation speed
 const SEARCH_ANIMATION_SPEED = 10;
 const PATH_ANIMATION_SPEED = 50;
 
 const Grid = (props: Props) => {
-  /**
-   * Here we have defined new state, to generate grid only once
-   * on components first load
-   */
+  const startFinishPosition = useSelector((state: any) => state.startFinish);
+
   const [grid, setGrid] = useState<Array<Array<NodeType>>>(); //Generate grid on load
   const [isMouseDown, setIsMouseDown] = useState<boolean>(); //State for placing walls down
   const [noPathMessage, setNoPathMessage] = useState(""); //If no possible path message
@@ -32,9 +25,13 @@ const Grid = (props: Props) => {
     and save it in local state
   */
   useEffect(() => {
-    const initialGrid = getInitialGrid(GRID_WIDTH, GRID_HEIGHT);
+    const initialGrid = getInitialGrid(
+      GRID_WIDTH,
+      GRID_HEIGHT,
+      startFinishPosition
+    );
     setGrid(initialGrid);
-  }, []);
+  }, [startFinishPosition]);
 
   return (
     <div
@@ -44,24 +41,19 @@ const Grid = (props: Props) => {
       <button
         onClick={() => {
           if (grid) {
-            const response = dijkstra(
-              grid,
-              grid[NODE_START_ROW][NODE_START_COL], //Start node
-              grid[NODE_FINISH_ROW][NODE_FINISH_COL] //Finish node
-            );
+            const response = dijkstra(grid);
 
             const { visitedNodesInOrder, shortestPath, errorMsg } = response;
 
             animateDijkstra(visitedNodesInOrder, shortestPath);
-            if (errorMsg) {
-              //If there are any error print them out
-              setNoPathMessage(errorMsg);
-            }
+            //If there are any error print them out
+            setNoPathMessage(errorMsg);
           }
         }}
       >
         Start Dijkstra
       </button>
+
       {grid?.map((row, rowIdx) => {
         //Displaying already generated grid
         return (
@@ -119,13 +111,17 @@ const animateShortestPath = (path: Array<NodeType>) => {
   }
 };
 
-const getInitialGrid = (width: number, height: number) => {
+const getInitialGrid = (
+  width: number,
+  height: number,
+  startFinishPosition: StartFinishPosition
+) => {
   const grid = [];
 
   for (let row = 0; row < height; row++) {
     const rowNodes = [];
     for (let col = 0; col < width; col++) {
-      rowNodes.push(createNewNode(col, row));
+      rowNodes.push(createNewNode(col, row, startFinishPosition));
     }
     grid.push(rowNodes);
   }
@@ -133,12 +129,20 @@ const getInitialGrid = (width: number, height: number) => {
   return grid;
 };
 
-const createNewNode = (col: number, row: number) => {
+const createNewNode = (
+  col: number,
+  row: number,
+  startFinishPosition: StartFinishPosition
+) => {
   return {
     col,
     row,
-    isStart: row === NODE_START_ROW && col === NODE_START_COL,
-    isFinish: row === NODE_FINISH_ROW && col === NODE_FINISH_COL,
+    isStart:
+      row === startFinishPosition.start.y &&
+      col === startFinishPosition.start.x,
+    isFinish:
+      row === startFinishPosition.finish.y &&
+      col === startFinishPosition.finish.x,
     isVisited: false,
     distance: Infinity,
     previousNode: null,
