@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import startFinishReducer from "./startFinishPositionSlice";
+import startPosition from "./startPositionSlice";
+import finishPosition from "./finishPositionSlice";
 
 export const store = configureStore({
   reducer: {
-    startFinish: startFinishReducer,
+    startPosition: startPosition,
+    finishPosition: finishPosition,
   },
 });

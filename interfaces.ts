@@ -9,13 +9,7 @@ export interface NodeType {
   isWall: boolean;
 }
 
-export interface StartFinishPosition {
-  start: {
-    x: number;
-    y: number;
-  };
-  finish: {
-    x: number;
-    y: number;
-  };
+export interface startFinishPosition {
+  x: number;
+  y: number;
 }

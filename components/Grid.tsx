@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { dijkstra } from "../algorithms/dijkstra";
-import { NodeType, StartFinishPosition } from "../interfaces";
+import { NodeType, startFinishPosition } from "../interfaces";
 import Node from "./Node";
 
 type Props = {};
@@ -15,11 +15,13 @@ const SEARCH_ANIMATION_SPEED = 10;
 const PATH_ANIMATION_SPEED = 50;
 
 const Grid = (props: Props) => {
-  const startFinishPosition = useSelector((state: any) => state.startFinish);
+  const startNodePosition = useSelector((state: any) => state.startPosition);
+  const finishNodePosition = useSelector((state: any) => state.finishPosition);
 
   const [grid, setGrid] = useState<Array<Array<NodeType>>>(); //Generate grid on load
   const [isMouseDown, setIsMouseDown] = useState<boolean>(); //State for placing walls down
   const [noPathMessage, setNoPathMessage] = useState(""); //If no possible path message
+  const [currentAction, setCurrentAction] = useState("");
 
   /* Generate initial grid on load
     and save it in local state
@@ -28,10 +30,11 @@ const Grid = (props: Props) => {
     const initialGrid = getInitialGrid(
       GRID_WIDTH,
       GRID_HEIGHT,
-      startFinishPosition
+      startNodePosition,
+      finishNodePosition
     );
     setGrid(initialGrid);
-  }, [startFinishPosition]);
+  }, [startNodePosition, finishNodePosition]);
 
   return (
     <div
@@ -54,6 +57,10 @@ const Grid = (props: Props) => {
         Start Dijkstra
       </button>
 
+      <button onClick={() => setCurrentAction("start")}>Start</button>
+      <button onClick={() => setCurrentAction("finish")}>Finish</button>
+      <button onClick={() => setCurrentAction("wall")}>Wall</button>
+
       {grid?.map((row, rowIdx) => {
         //Displaying already generated grid
         return (
@@ -69,6 +76,7 @@ const Grid = (props: Props) => {
                   row={row}
                   node={node}
                   isMouseDown={isMouseDown}
+                  currentAction={currentAction}
                 />
               );
             })}
@@ -114,14 +122,17 @@ const animateShortestPath = (path: Array<NodeType>) => {
 const getInitialGrid = (
   width: number,
   height: number,
-  startFinishPosition: StartFinishPosition
+  startNodePosition: startFinishPosition,
+  finishNodePosition: startFinishPosition
 ) => {
   const grid = [];
 
   for (let row = 0; row < height; row++) {
     const rowNodes = [];
     for (let col = 0; col < width; col++) {
-      rowNodes.push(createNewNode(col, row, startFinishPosition));
+      rowNodes.push(
+        createNewNode(col, row, startNodePosition, finishNodePosition)
+      );
     }
     grid.push(rowNodes);
   }
@@ -132,17 +143,14 @@ const getInitialGrid = (
 const createNewNode = (
   col: number,
   row: number,
-  startFinishPosition: StartFinishPosition
+  startNodePosition: startFinishPosition,
+  finishNodePosition: startFinishPosition
 ) => {
   return {
     col,
     row,
-    isStart:
-      row === startFinishPosition.start.y &&
-      col === startFinishPosition.start.x,
-    isFinish:
-      row === startFinishPosition.finish.y &&
-      col === startFinishPosition.finish.x,
+    isStart: row === startNodePosition.y && col === startNodePosition.x,
+    isFinish: row === finishNodePosition.y && col === finishNodePosition.x,
     isVisited: false,
     distance: Infinity,
     previousNode: null,
