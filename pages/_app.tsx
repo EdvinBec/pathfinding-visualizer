@@ -1,6 +1,7 @@
 import "../styles/globals.scss";
 import "../styles/Grid.scss";
 import "../styles/Node.scss";
+import "../styles/PathfindingVisualizer.scss";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";

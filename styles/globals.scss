@@ -1,6 +1,13 @@
+@import "../styles/PathfindingVisualizer.scss";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,600;1,700&display=swap");
+
 body {
   margin: 0;
   padding: 0;
+  background-color: #161616;
+  font-family: Poppins;
+  color: white;
+  letter-spacing: 1px;
 }
 
 .container {
@@ -9,5 +16,4 @@ body {
 
   display: flex;
   justify-content: center;
-  align-items: center;
 }

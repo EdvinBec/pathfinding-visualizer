@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { dijkstra } from "../algorithms/dijkstra";
 import { NodeType } from "../interfaces";
 import Grid from "./Grid";
@@ -10,7 +12,6 @@ const SEARCH_ANIMATION_SPEED = 10;
 const PATH_ANIMATION_SPEED = 50;
 
 const PathfindingVisualizer = (props: Props) => {
-  const [noPathMessage, setNoPathMessage] = useState(""); //If no possible path message
   const [currentAction, setCurrentAction] = useState("");
   const [grid, setGrid] = useState<Array<Array<NodeType>>>();
 
@@ -19,28 +20,68 @@ const PathfindingVisualizer = (props: Props) => {
     setGrid(grid);
   };
 
+  const notifyNoPath = () => {
+    toast.error(`There is no possible path`, {
+      position: "bottom-left",
+    });
+  };
+
   return (
-    <div>
-      <button
-        onClick={() => {
-          if (grid) {
-            const { visitedNodesInOrder, shortestPath, errorMsg } =
-              dijkstra(grid);
-            animateDijkstra(visitedNodesInOrder, shortestPath);
-            setNoPathMessage(errorMsg); //If there are any error print them out
-          }
-        }}
-      >
-        Start Dijkstra
-      </button>
+    <div className="appContainer">
+      <div className="navigationBar">
+        <button className="algorithmOptions">Dijkstra</button>
+        <button
+          className="visualizeButton"
+          onClick={() => {
+            if (grid) {
+              const { visitedNodesInOrder, shortestPath, errorMsg } =
+                dijkstra(grid);
+              animateDijkstra(visitedNodesInOrder, shortestPath);
+              if (errorMsg) {
+                notifyNoPath();
+              }
+            }
+          }}
+        >
+          Visualize
+        </button>
+        <button className="algorithmOptions">A*</button>
+      </div>
+      <div className="buttonContainer">
+        <h4>
+          These buttons allow you to place walls and modify the positions of
+          nodes
+        </h4>
+        <div className="buttons">
+          <button
+            className="startButton"
+            onClick={() => setCurrentAction("start")}
+          >
+            Start
+          </button>
+          <button
+            className="finishButton"
+            onClick={() => setCurrentAction("finish")}
+          >
+            Finish
+          </button>
+          <button
+            className="wallButton"
+            onClick={() => setCurrentAction("wall")}
+          >
+            Wall
+          </button>
+        </div>
+      </div>
+      <div className="gridContainer">
+        <h4>
+          Select an algorithm from the options provided and visualize it through
+          our visualization tool
+        </h4>
+        <Grid currentAction={currentAction} getGrid={getGrid} />
+      </div>
 
-      <button onClick={() => setCurrentAction("start")}>Start</button>
-      <button onClick={() => setCurrentAction("finish")}>Finish</button>
-      <button onClick={() => setCurrentAction("wall")}>Wall</button>
-
-      <Grid currentAction={currentAction} getGrid={getGrid} />
-
-      <h1>{noPathMessage}</h1>
+      <ToastContainer theme="light" />
     </div>
   );
 };

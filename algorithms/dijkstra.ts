@@ -1,19 +1,14 @@
 import { NodeType } from "../interfaces";
 
 export const dijkstra = (grid: Array<Array<NodeType>>) => {
-  let errorMsg = ""; //If there is no available path, save message here
+  let errorMsg = false; //If there is no available path, save message here
 
   const visitedNodesInOrder = []; //Saved nodes in the order that they were visited
   const unvisitedNodes = getAllNodes(grid);
-  let startNode: NodeType = grid[0][0];
   let finishNode: NodeType = grid[0][0];
 
   for (const row of grid) {
     for (const node of row) {
-      if (node.isStart) {
-        startNode = node;
-      }
-
       if (node.isFinish) {
         finishNode = node;
       }
@@ -31,7 +26,7 @@ export const dijkstra = (grid: Array<Array<NodeType>>) => {
 
     if (closestNode?.distance === Infinity) {
       //If start node is surrounded by walls break loop
-      errorMsg = "No way!";
+      errorMsg = true;
       break;
     }
 

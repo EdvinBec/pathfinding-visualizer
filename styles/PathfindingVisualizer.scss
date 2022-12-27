@@ -1,0 +1,123 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,600;1,700&display=swap");
+
+$mainDark: #0d1b2a;
+$startNode: #74c69d;
+$finishNode: #d62839;
+$dijkstraColor: #4ea8de;
+
+.appContainer {
+  text-align: center;
+
+  h1 {
+    font-family: Poppins;
+    color: white;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+
+  .navigationBar {
+    margin: 1rem 0 3rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+
+    .algorithmOptions {
+      width: 5rem;
+      border: none;
+      background: none;
+      color: white;
+      font-weight: 400;
+      font-size: 18px;
+      letter-spacing: 1px;
+      text-align: center;
+      transition: all ease-in-out 0.2s;
+      cursor: pointer;
+    }
+
+    .algorithmOptions:hover {
+      transform: scale(1.05);
+      opacity: 0.7;
+    }
+
+    .visualizeButton {
+      width: 8rem;
+      height: 3rem;
+      text-align: center;
+      font-family: "Poppins", sans-serif;
+      font-weight: 400;
+      border: none;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      transition: all ease-in-out 0.2s;
+      background-color: $dijkstraColor;
+    }
+
+    .visualizeButton:hover {
+      opacity: 0.7;
+      cursor: pointer;
+      transform: scale(1.05);
+    }
+  }
+
+  .gridContainer {
+    h4 {
+      font-weight: 400;
+      font-size: 12px;
+    }
+  }
+
+  .buttonContainer {
+    h4 {
+      font-weight: 400;
+      font-size: 14px;
+    }
+
+    .buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 3rem;
+
+      button {
+        width: 6rem;
+        height: 2.4rem;
+        text-align: center;
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        border: none;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        border-radius: 4px;
+        letter-spacing: 1px;
+        transition: all ease-in-out 0.2s;
+      }
+
+      button:hover {
+        opacity: 0.7;
+        cursor: pointer;
+        transform: scale(1.05);
+      }
+
+      .startButton {
+        background-color: $startNode;
+        color: $mainDark;
+      }
+
+      .finishButton {
+        background-color: $finishNode;
+        color: white;
+      }
+
+      .wallButton {
+        background-color: white;
+        color: $mainDark;
+      }
+
+      .startDijkstraButton {
+        background-color: $dijkstraColor;
+      }
+    }
+  }
+}
