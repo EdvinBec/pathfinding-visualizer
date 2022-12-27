@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { NodeType, startFinishPosition } from "../interfaces";
-import { saveGrid } from "../redux/gridSlice";
-import gridSlice, { saveWalls } from "../redux/wallsSlice";
 import Node from "./Node";
 
 type Props = {
   currentAction: string;
+  getGrid: any;
 };
 
 //Grid size
 const GRID_WIDTH = 50;
 const GRID_HEIGHT = 20;
 
-const Grid = ({ currentAction }: Props) => {
+const Grid = ({ currentAction, getGrid }: Props) => {
   const startNodePosition = useSelector((state: any) => state.startPosition);
   const finishNodePosition = useSelector((state: any) => state.finishPosition);
   const walls = useSelector((state: any) => state.walls.walls);
@@ -29,11 +28,9 @@ const Grid = ({ currentAction }: Props) => {
     walls
   );
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(saveGrid({ grid: grid }));
     setGrid(initialGrid);
+    getGrid(initialGrid);
   }, [startNodePosition, finishNodePosition, walls, initialGrid]);
 
   return (

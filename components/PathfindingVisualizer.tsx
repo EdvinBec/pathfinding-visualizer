@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { dijkstra } from "../algorithms/dijkstra";
 import { NodeType } from "../interfaces";
 import Grid from "./Grid";
@@ -11,27 +10,24 @@ const SEARCH_ANIMATION_SPEED = 10;
 const PATH_ANIMATION_SPEED = 50;
 
 const PathfindingVisualizer = (props: Props) => {
-  const grid = useSelector((state: any) => state.grid.grid);
-
   const [noPathMessage, setNoPathMessage] = useState(""); //If no possible path message
   const [currentAction, setCurrentAction] = useState("");
+  const [grid, setGrid] = useState<Array<Array<NodeType>>>();
 
-  /* Generate initial grid on load
-    and save it in local state
-  */
+  const getGrid = (grid: Array<Array<NodeType>>) => {
+    //Get grid from GRID component
+    setGrid(grid);
+  };
 
   return (
     <div>
       <button
         onClick={() => {
           if (grid) {
-            const response = dijkstra(grid);
-
-            const { visitedNodesInOrder, shortestPath, errorMsg } = response;
-
+            const { visitedNodesInOrder, shortestPath, errorMsg } =
+              dijkstra(grid);
             animateDijkstra(visitedNodesInOrder, shortestPath);
-            //If there are any error print them out
-            setNoPathMessage(errorMsg);
+            setNoPathMessage(errorMsg); //If there are any error print them out
           }
         }}
       >
@@ -42,7 +38,7 @@ const PathfindingVisualizer = (props: Props) => {
       <button onClick={() => setCurrentAction("finish")}>Finish</button>
       <button onClick={() => setCurrentAction("wall")}>Wall</button>
 
-      <Grid currentAction={currentAction} />
+      <Grid currentAction={currentAction} getGrid={getGrid} />
 
       <h1>{noPathMessage}</h1>
     </div>
