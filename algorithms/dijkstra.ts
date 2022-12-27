@@ -20,8 +20,6 @@ export const dijkstra = (grid: Array<Array<NodeType>>) => {
     }
   }
 
-  startNode.distance = 0;
-
   while (!!unvisitedNodes.length) {
     sortNodesByDistance(unvisitedNodes);
 
