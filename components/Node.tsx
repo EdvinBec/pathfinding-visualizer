@@ -75,20 +75,6 @@ const Node = ({
           ></div>
         );
       }
-    case "finish":
-      return (
-        <div
-          onClick={() => {
-            dispatch(
-              saveFinishPosition({
-                x: col,
-                y: row,
-              })
-            );
-          }}
-          className={nodeClassNames}
-        ></div>
-      );
     default:
       return <div className={nodeClassNames}></div>;
   }
