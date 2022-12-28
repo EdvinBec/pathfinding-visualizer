@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { dijkstra } from "../algorithms/dijkstra";
@@ -12,16 +13,12 @@ const SEARCH_ANIMATION_SPEED = 10;
 const PATH_ANIMATION_SPEED = 50;
 
 const PathfindingVisualizer = (props: Props) => {
+  const grid = useSelector((state: any) => state.grid.grid);
+
   const [currentAction, setCurrentAction] = useState("");
-  const [grid, setGrid] = useState<Array<Array<NodeType>>>();
 
-  const getGrid = (grid: Array<Array<NodeType>>) => {
-    //Get grid from GRID component
-    setGrid(grid);
-  };
-
-  const notifyNoPath = () => {
-    toast.error(`There is no possible path`, {
+  const notify = (message: string) => {
+    toast.error(message, {
       position: "bottom-left",
     });
   };
@@ -33,14 +30,16 @@ const PathfindingVisualizer = (props: Props) => {
         <button
           className="visualizeButton"
           onClick={() => {
-            if (grid) {
-              const { visitedNodesInOrder, shortestPath, errorMsg } =
-                dijkstra(grid);
-              animateDijkstra(visitedNodesInOrder, shortestPath);
-              if (errorMsg) {
-                notifyNoPath();
-              }
+            const clone = JSON.parse(JSON.stringify(grid)); //Create editable copy of grid
+
+            const response = dijkstra(clone);
+            const { visitedNodesInOrder, shortestPath, errorMsg } = response;
+
+            if (errorMsg) {
+              notify(errorMsg);
             }
+
+            animateDijkstra(visitedNodesInOrder, shortestPath);
           }}
         >
           Visualize
@@ -78,7 +77,7 @@ const PathfindingVisualizer = (props: Props) => {
           Select an algorithm from the options provided and visualize it through
           our visualization tool
         </h4>
-        <Grid currentAction={currentAction} getGrid={getGrid} />
+        <Grid currentAction={currentAction} notify={notify} />
       </div>
 
       <ToastContainer theme="light" />

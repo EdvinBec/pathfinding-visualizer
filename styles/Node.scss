@@ -13,14 +13,6 @@
   opacity: 0.5;
 }
 
-.nodeStart {
-  background-color: $startNode;
-}
-
-.nodeFinish {
-  background-color: $finishNode;
-}
-
 .searching {
   animation-name: visitedAnimation;
   animation-duration: 1.5s;
@@ -45,6 +37,14 @@
 
 .wall {
   background-color: white;
+}
+
+.nodeStart {
+  background-color: $startNode;
+}
+
+.nodeFinish {
+  background-color: $finishNode;
 }
 
 @keyframes shortestPath {

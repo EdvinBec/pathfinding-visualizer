@@ -13,3 +13,14 @@ export interface startFinishPosition {
   x: number;
   y: number;
 }
+
+export interface gridReduxState {
+  grid: any;
+  gridHeight: number;
+  gridWidth: number;
+}
+
+export interface previousStartFinish {
+  x: number;
+  y: number;
+}

@@ -1,7 +1,7 @@
 import { NodeType } from "../interfaces";
 
 export const dijkstra = (grid: Array<Array<NodeType>>) => {
-  let errorMsg = false; //If there is no available path, save message here
+  let errorMsg = ""; //If there is no available path, save message here
 
   const visitedNodesInOrder = []; //Saved nodes in the order that they were visited
   const unvisitedNodes = getAllNodes(grid);
@@ -11,6 +11,15 @@ export const dijkstra = (grid: Array<Array<NodeType>>) => {
     for (const node of row) {
       if (node.isFinish) {
         finishNode = node;
+      }
+    }
+  }
+  for (const row of grid) {
+    for (const node of row) {
+      if (node.isStart) {
+        node.distance = 0;
+      } else {
+        node.distance = Infinity;
       }
     }
   }
@@ -26,7 +35,7 @@ export const dijkstra = (grid: Array<Array<NodeType>>) => {
 
     if (closestNode?.distance === Infinity) {
       //If start node is surrounded by walls break loop
-      errorMsg = true;
+      errorMsg = "There is no possible path";
       break;
     }
 
