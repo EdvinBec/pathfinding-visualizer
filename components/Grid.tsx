@@ -7,9 +7,10 @@ import Node from "./Node";
 type Props = {
   currentAction: string;
   notify: any;
+  newGrid: boolean;
 };
 
-const Grid = ({ currentAction, notify }: Props) => {
+const Grid = ({ currentAction, notify, newGrid }: Props) => {
   const startNodePosition = useSelector(
     (state: any) => state.grid.startPosition
   );
@@ -34,7 +35,7 @@ const Grid = ({ currentAction, notify }: Props) => {
       finishNodePosition
     );
     dispatch(saveGrid({ grid: initialGrid }));
-  }, []);
+  }, [newGrid]);
 
   /**
    * Here we listen for any changes in redux grid state, so we can update component

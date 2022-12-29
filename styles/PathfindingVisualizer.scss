@@ -19,29 +19,61 @@ $dijkstraColor: #4ea8de;
   .navigationBar {
     margin: 1rem 0 3rem 0;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     gap: 2rem;
 
-    .algorithmOptions {
-      width: 5rem;
-      border: none;
-      background: none;
-      color: white;
-      font-weight: 400;
-      font-size: 18px;
-      letter-spacing: 1px;
-      text-align: center;
-      transition: all ease-in-out 0.2s;
-      cursor: pointer;
+    .logo {
+      font-size: 1.5rem;
     }
 
-    .algorithmOptions:hover {
-      transform: scale(1.05);
-      opacity: 0.7;
-    }
+    .centerButtons {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      align-items: center;
+      margin-right: 14rem;
 
-    .visualizeButton {
-      width: 8rem;
+      .algorithmOptions {
+        width: 5rem;
+        border: none;
+        background: none;
+        color: white;
+        font-weight: 400;
+        font-size: 18px;
+        letter-spacing: 1px;
+        text-align: center;
+        transition: all ease-in-out 0.2s;
+        cursor: pointer;
+      }
+
+      .algorithmOptions:hover {
+        transform: scale(1.05);
+        opacity: 0.7;
+      }
+
+      .visualizeButton {
+        width: 8rem;
+        height: 3rem;
+        text-align: center;
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        border: none;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        border-radius: 4px;
+        letter-spacing: 1px;
+        transition: all ease-in-out 0.2s;
+        background-color: $dijkstraColor;
+      }
+
+      .visualizeButton:hover {
+        opacity: 0.7;
+        cursor: pointer;
+        transform: scale(1.05);
+      }
+    }
+    .clearButton {
+      width: 6rem;
       height: 3rem;
       text-align: center;
       font-family: "Poppins", sans-serif;
@@ -51,10 +83,11 @@ $dijkstraColor: #4ea8de;
       border-radius: 4px;
       letter-spacing: 1px;
       transition: all ease-in-out 0.2s;
-      background-color: $dijkstraColor;
+      color: white;
+      background-color: $finishNode;
     }
 
-    .visualizeButton:hover {
+    .clearButton:hover {
       opacity: 0.7;
       cursor: pointer;
       transform: scale(1.05);
