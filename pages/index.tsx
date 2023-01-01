@@ -1,3 +1,4 @@
+import Moment from "react-moment";
 import PathfindingVisualizer from "../components/PathfindingVisualizer";
 
 export default function Home() {
@@ -7,6 +8,10 @@ export default function Home() {
         <title>Pathfinding Visualizer</title>
       </header>
       <PathfindingVisualizer />
+      <footer>
+        {" "}
+        &copy; Copyright <Moment format="YYYY"></Moment> GitHub, Edvin Becic{" "}
+      </footer>
     </div>
   );
 }

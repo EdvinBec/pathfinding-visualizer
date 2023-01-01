@@ -52,7 +52,9 @@ const PathfindingVisualizer = (props: Props) => {
           >
             Visualize
           </button>
-          <button className="algorithmOptions">A*</button>
+          <button className="algorithmOptions aStar">
+            A*<span>Currently unavailable</span>
+          </button>
         </div>
         <button
           className="clearButton"

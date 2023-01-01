@@ -9,7 +9,7 @@ $dijkstraColor: #4ea8de;
   text-align: center;
 
   h1 {
-    font-family: Poppins;
+    font-family: Poppins, sans-serif;
     color: white;
     letter-spacing: 2px;
     font-weight: 600;
@@ -24,7 +24,7 @@ $dijkstraColor: #4ea8de;
     gap: 2rem;
 
     .logo {
-      font-size: 1.5rem;
+      font-size: 1.3rem;
     }
 
     .centerButtons {
@@ -45,11 +45,25 @@ $dijkstraColor: #4ea8de;
         text-align: center;
         transition: all ease-in-out 0.2s;
         cursor: pointer;
+
+        span {
+          font-size: 0.8rem;
+          display: block;
+        }
+      }
+
+      .aStar {
+        cursor: default;
+        color: #868686;
       }
 
       .algorithmOptions:hover {
         transform: scale(1.05);
         opacity: 0.7;
+      }
+
+      .aStar:hover {
+        transform: none;
       }
 
       .visualizeButton {
