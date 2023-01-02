@@ -210,6 +210,8 @@ const Introduction = (props: Props) => {
         </div>
       </div>
     );
+  } else {
+    return <></>;
   }
 };
 
