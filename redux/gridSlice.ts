@@ -7,6 +7,7 @@ const initialState = {
   startPosition: { x: 5, y: 10 },
   finishPosition: { x: 45, y: 10 },
   previousStart: { x: 0, y: 0 },
+  hasSeenIntro: false,
 };
 
 export const gridSlice = createSlice({
@@ -39,6 +40,9 @@ export const gridSlice = createSlice({
           action.payload.finishPosition.x
         ].isFinish = true;
         state.finishPosition = action.payload.finishPosition;
+      }
+      if (action.payload.hasSeenIntro) {
+        state.hasSeenIntro = action.payload.hasSeenIntro.state;
       }
     },
   },

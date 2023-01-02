@@ -1,11 +1,11 @@
 @import "../styles/PathfindingVisualizer.scss";
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700&display=swap");
 
 body {
   margin: 0;
   padding: 0;
   background-color: #161616;
-  font-family: "Poppins", sans-serif;
+  font-family: "Inter", sans-serif;
   color: white;
   letter-spacing: 1px;
 }
@@ -17,9 +17,9 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
+}
 
-  footer {
-    font-size: 12px;
-    margin-bottom: 0;
-  }
+footer {
+  font-size: 12px;
+  margin-bottom: 0;
 }
